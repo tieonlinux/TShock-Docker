@@ -1,5 +1,5 @@
 apt-get update &&
-apt-get install -y --no-install-recommends mono-complete rsync tini wget unzip && 
+apt-get install -y --no-install-recommends rsync tini wget unzip && 
 apt-get install -y --no-install-recommends build-essential ca-certificates llvm &&
 timeout 120 cert-sync /etc/ssl/certs/ca-certificates.crt
 if [ $? -ne 124 -a $? -ne 0 ]; then
