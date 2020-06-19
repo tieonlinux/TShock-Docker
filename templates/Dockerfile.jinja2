@@ -17,7 +17,6 @@ COPY {% for file in files %}{{ file | quote }} {% endfor %}  /
 {% endif %}
 
 RUN /bin/sh -x /setup_tshock.sh
-USER terraria
 
 VOLUME ["/world", "/config", "/logs", "/plugins"]
 
@@ -25,4 +24,4 @@ WORKDIR /tshock
 
 EXPOSE {{ terraria_port | default(7777)}}
 
-ENTRYPOINT {{ entrypoint | default('["/usr/bin/tini", "--", "/start.sh"]') }}
+ENTRYPOINT {{ entrypoint | default('["/usr/bin/dumb-init", "--", "/start.sh"]') }}

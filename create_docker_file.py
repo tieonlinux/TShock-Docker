@@ -13,6 +13,10 @@ import warnings
 
 _DEFAULT_TSHOCK_REPO='Pryaxis/TShock'
 
+@lru_cache(512)
+def parse_github_date(d):
+    return datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%SZ")
+
 def list_recent_tshock_release(tshock_repo=_DEFAULT_TSHOCK_REPO):
     r = requests.get(f'https://api.github.com/repos/{tshock_repo}/releases')
     r.raise_for_status()
@@ -20,12 +24,7 @@ def list_recent_tshock_release(tshock_repo=_DEFAULT_TSHOCK_REPO):
 
 def get_latest_release(tshock_repo=_DEFAULT_TSHOCK_REPO):
     payload = list_recent_tshock_release(tshock_repo=tshock_repo)
-
-    @lru_cache(512)
-    def parse_date(d):
-        return datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%SZ")
-
-    return sorted(payload, key=lambda d: parse_date(d['published_at']))[-1]
+    return max(payload, key=lambda d: parse_github_date(d['published_at']))
 
 
 def get_release_asset(release: dict):
