@@ -22,6 +22,30 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
       timeout-minutes: 1
+
+
+    - name: Set up Python 3
+      uses: actions/setup-python@v2
+      timeout-minutes: 5
+      with:
+        python-version: 3.x
+
+    - name: Setup pip cache
+      uses: actions/cache@v2
+      timeout-minutes: 5
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install python deps
+      run: python -m pip install -r requirements.txt
+      timeout-minutes: 5
+
+    - name: Create Dockerfile
+      run: python create_docker_file.py
+      timeout-minutes: 5
       
     - uses: azure/docker-login@v1
       timeout-minutes: 1
@@ -38,7 +62,6 @@ jobs:
       with:
         buildx-version: latest
         qemu-version: latest
-
             
     -
       name: Docker Login
@@ -50,7 +73,7 @@ jobs:
       run: |
         echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
   
-
+    
     - name: Build dockerfile (with push)
       if: success() && github.event_name != 'pull_request'
       timeout-minutes: 30
