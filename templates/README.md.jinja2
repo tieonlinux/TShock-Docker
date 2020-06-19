@@ -1,0 +1,21 @@
+# TShock-Docker
+
+** This is the gen branch**
+
+{% if labels -%}
+## labels
+| Key | Value |
+| :-- | --:|
+{% for key, value in labels.items() -%} 
+| {{ key }} | {{ value }} |
+{% endfor %}
+{% endif %}
+{% if env -%}
+## env
+| Key | Value |
+| :-- | --:|
+{% for key, value in env.items() -%} 
+| {{ key }} | {{ value }} |
+{% endfor %}
+{% endif %}
+
