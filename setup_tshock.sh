@@ -15,16 +15,16 @@ wget "$TSHOCK_URL" -O tshock.zip --no-check-certificate --tries=5 &&
 unzip tshock.zip &&
 rm tshock.zip &&
 chmod +x /tshock/TerrariaServer.exe &&
-cp --archive /start.sh /start &&
-chmod +x /start || exit $?
+chmod +x /start.sh || exit $?
 if [[ -z "${MONO_NO_AOT}" ]]; then
     timeout 120 mono --aot -O=all TerrariaServer.exe
     if [ $? -ne 124 -a $? -ne 0 ]; then
         exit $?
     fi
 fi
-apt-get autoremove -y --purge build-essential ca-certificates llvm &&
+apt-get remove -y --purge build-essential ca-certificates llvm
+apt-get autoremove -y --purge && apt-get clean
 rm -rf /var/lib/apt/lists/*
-addgroup --gid 1001 --system terraria && adduser --system --uid 1001 --ingroup terraria terraria &&
+addgroup --system --gid 1001 terraria && adduser --system --uid 1001 --ingroup terraria terraria &&
 chown -R terraria:terraria /world /config /logs /plugins /tshock
 exit $?
