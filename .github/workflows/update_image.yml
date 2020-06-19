@@ -2,13 +2,13 @@
 
 name: Update Docker.io Image
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
+# Controls when the action will run. Triggers the workflow on push
+# events & every 2 hours but only for the main branch
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  schedule:
+    - cron: '22 */2 * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -47,25 +47,103 @@ jobs:
       run: python create_docker_file.py
       timeout-minutes: 5
 
-    - name: Commit
+    - name: Extract TShock Tag
+      run: |
+            echo "::set-env name=TSHOCK_TAG::$(jq --join-output .tag_name release_info.json)"
+            echo "::set-env name=TSHOCK_PRERELEASE::$(jq --join-output .prerelease release_info.json)"
+
+    - name: Split TShock Tag
+      shell: python
+      run: |
+            import json
+            import re
+
+            tag = r'''${{ env.TSHOCK_TAG }}'''
+            prerelease = r'''${{ env.TSHOCK_PRERELEASE }}'''.strip().lower() == 'true'
+
+            version = next(re.finditer(r'v([\d+\.]+)', tag))
+            version = version.group(1)
+            version = list(int(n) for n in version.split("."))
+            print(f"::set-env name=TSHOCK_TAG_SPLIT_ARRAY::{json.dumps(version)}")
+            version_s = [str(x) for x in version]
+            for i in range(len(version_s)):
+              i += 1
+              print(f"::set-env name=TSHOCK_TAG_SPLIT_{'X' * i}::{'.'.join(version_s[:i])}")
+              print(f"::set-env name=TSHOCK_TAG_FORMATED_SPLIT_{'X' * i}::{'pre' if prerelease else 'v' }{'.'.join(version_s[:i])}")
+      
+
+    - name: Lock using Turnstyle
+      timeout-minutes: 15
+      uses: softprops/turnstyle@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update gen branch
+      id: update_gen_branch
       timeout-minutes: 3
       run: |
-        set -x
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git stash push --include-untracked &&
-        git switch --guess -c gen origin/gen ||
-        git checkout -B gen ||
-        exit $?
-        git pull --ff-only ||
-        git reset --hard origin/gen
-        git stash pop || git checkout stash -- . || :
-        git add *
-        git commit -am "New version built"
+            set -x
+            gen_dir=$(mktemp -d -t gen_XXXXXXXX)
+            
+            echo "::set-env name=gen_dir::$gen_dir"
+            pushd $gen_dir
+            git init
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git remote add origin https://github.com/${{github.repository}}.git
+            git fetch origin
+            git checkout -b gen --track origin/gen || git checkout -B gen
+            git reset --hard origin/gen || :
+            git merge --allow-unrelated-histories --strategy-option=theirs ${{ github.sha }}
+            rsync -a --delete --exclude=".*" $GITHUB_WORKSPACE/ ./
+            git add *
+            commit_message="Bump TShock to version ${TSHOCK_TAG} 
+            auto commit for run#${{ github.run_id }} using github actions"
+            git commit --dry-run -am "${commit_message}" &&
+            echo "::set-env name=COMMIT_FAIL::" ||
+            echo "::set-env name=COMMIT_FAIL::1"
+            git commit --allow-empty -am "${commit_message}" || :
+            popd
 
+    - name: Manage Tag
+      run: |
+            set -x
+            git ls-remote --exit-code origin "refs/tags/tshock_${TSHOCK_TAG}" &&
+            echo "::set-env name=NEW_RELEASE::" ||
+            echo "::set-env name=NEW_RELEASE::1"
+            pushd "$gen_dir"
+            git tag --force "tshock_${TSHOCK_TAG}"
+            popd
+    
+    - name: Setup build tag cache
+      uses: actions/cache@v2
+      id: tag_cache
+      timeout-minutes: 5
+      with:
+        path: ~/.cache/tshock_docker_build
+        key: ${{ runner.os }}-tshock-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-tshock
+
+    - name: Get Or Write (sha, run_id) pair into the cache
+      run: |
+            set -x
+            mkdir -p "${HOME}/.cache/tshock_docker_build"
+            cfile="${HOME}/.cache/tshock_docker_build/${{ github.sha }}.run_id"
+            echo "::set-env name=SHA_CACHE_FILE::$cfile"
+            if [ ${{ steps.tag_cache.outputs.cache-hit }} = "true" -a -f "${cfile}" ]; then
+              echo "::set-output name=previous_run_id::$(cat $cfile)"
+              echo "::set-env name=COMMIT_ALREADY_BUILT::1"
+            else
+              echo "::set-output name=previous_run_id::"
+              echo "::set-env name=COMMIT_ALREADY_BUILT::"
+              echo ${{ github.run_id }} > "$cfile"
+            fi
+            
       
     - uses: azure/docker-login@v1
       timeout-minutes: 1
+      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       with:
         login-server: index.docker.io
         username: ${{ secrets.DOCKERIO_USERNAME }}
@@ -82,27 +160,51 @@ jobs:
             
     -
       name: Docker Login
-      if: success() && github.event_name != 'pull_request'
+      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 1
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKERIO_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKERIO_PASSWORD }}
       run: |
-        echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
-  
+            echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+      
+
+    - name: Build dockerfile amd64 to test setup
+      timeout-minutes: 30
+      run: |
+            docker buildx build \
+            --platform=linux/amd64 \
+            --output "type=image,push=false" \
+            --file ./Dockerfile . \
     
     - name: Build dockerfile (with push)
-      if: success() && github.event_name != 'pull_request'
+      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 30
       run: |
             docker buildx build \
             --platform=linux/amd64,linux/386,linux/arm/v7,linux/arm64/v8 \
             --output "type=image,push=true" \
             --file ./Dockerfile . \
-            --tag tieonlinux/tshock:latest
+            --tag tieonlinux/tshock:latest \
+            --tag "tieonlinux/tshock:${TSHOCK_TAG}" \
+            --tag "tieonlinux/tshock:${TSHOCK_TAG_FORMATED_SPLIT_X}" \
+            --tag "tieonlinux/tshock:${TSHOCK_TAG_FORMATED_SPLIT_XX}" \
+            --tag "tieonlinux/tshock:${TSHOCK_TAG_FORMATED_SPLIT_XXX}" \
 
-    - name: Push changes
+    - name: Push changes to remote gen branch
       uses: ad-m/github-push-action@master
+      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      timeout-minutes: 2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gen
+        directory: ${{ env.gen_dir }}
+        force: ${{ !env.COMMIT_FAIL || (env.COMMIT_ALREADY_BUILT && env.NEW_RELEASE) }}
+        tags: ${{ env.NEW_RELEASE || env.COMMIT_ALREADY_BUILT }}
+
+    - name: Update cache entry
+      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      run: |
+            echo ${{ github.run_id }} > "$SHA_CACHE_FILE"
+            touch "$SHA_CACHE_FILE"
+
