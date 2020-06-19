@@ -46,6 +46,21 @@ jobs:
     - name: Create Dockerfile
       run: python create_docker_file.py
       timeout-minutes: 5
+
+    - name: Commit
+      timeout-minutes: 3
+      run: |
+        set -x
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git stash push &&
+        git checkout -B gen ||
+        exit $?
+        git pull --ff-only || :
+        git stash pop || :
+        git add *
+        git commit -am "New version built"
+
       
     - uses: azure/docker-login@v1
       timeout-minutes: 1
@@ -83,3 +98,9 @@ jobs:
             --output "type=image,push=true" \
             --file ./Dockerfile . \
             --tag tieonlinux/tshock:latest
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gen
