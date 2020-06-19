@@ -53,11 +53,13 @@ jobs:
         set -x
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git stash push &&
+        git stash push --include-untracked &&
+        git switch --guess -c gen origin/gen ||
         git checkout -B gen ||
         exit $?
-        git pull --ff-only || :
-        git stash pop || :
+        git pull --ff-only ||
+        git reset --hard origin/gen
+        git stash pop || git checkout stash -- . || :
         git add *
         git commit -am "New version built"
 
