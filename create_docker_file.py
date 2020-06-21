@@ -18,7 +18,7 @@ def parse_github_date(d):
     return datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%SZ")
 
 def list_recent_tshock_release(tshock_repo=_DEFAULT_TSHOCK_REPO):
-    r = requests.get(f'https://api.github.com/repos/{tshock_repo}/releases')
+    r = requests.get(f'https://api.github.com/repos/{tshock_repo}/releases', timeout=60)
     r.raise_for_status()
     return r.json()
 
