@@ -46,6 +46,7 @@ def gen_default_labels():
     yield "name", "tshock"
     yield "description", "Tshock docker container by tieonlinux"
     yield "url", "https://github.com/tieonlinux/TShock-Docker"
+    yield "vcs-url", "https://github.com/tieonlinux/TShock-Docker"
     vcs_ref = os.environ.get("GITHUB_SHA") or os.environ.get("GITHUB_REF")
     if vcs_ref is None:
         try:
