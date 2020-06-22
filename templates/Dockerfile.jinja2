@@ -24,4 +24,4 @@ WORKDIR /tshock
 
 EXPOSE {{ terraria_port | default(7777)}}
 
-ENTRYPOINT {{ entrypoint | default('["/usr/bin/dumb-init", "--", "/start.sh"]') }}
+ENTRYPOINT {{ entrypoint | default('["/usr/bin/dumb-init", "--", "/start.py"]') }}
