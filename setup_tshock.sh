@@ -1,6 +1,6 @@
 # install new packages
 apt-get update &&
-apt-get install -y --no-install-recommends wget unzip rsync dumb-init sudo bash ca-certificates nuget &&
+apt-get install -y --no-install-recommends wget unzip rsync dumb-init sudo bash ca-certificates nuget python3 &&
 # update mono cert store
 timeout 120 cert-sync /etc/ssl/certs/ca-certificates.crt || :
 
@@ -16,7 +16,7 @@ wget "$TSHOCK_URL" -O tshock.zip --tries=5 &&
 unzip tshock.zip &&
 rm tshock.zip &&
 chmod +x /tshock/TerrariaServer.exe &&
-chmod +x /start.sh || exit $?
+chmod +x /start.py || exit $?
 
 # install gosu
 dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"

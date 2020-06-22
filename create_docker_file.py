@@ -86,7 +86,7 @@ env['TSHOCK_TAG'] = release['tag_name']
 with open('release_info.json', 'w') as f:
     json.dump(release, f, indent=4)
 
-files = ['start.sh', 'setup_tshock.sh', 'release_info.json', 'README.md']
+files = ['start.py', 'setup_tshock.sh', 'release_info.json', 'README.md']
 
 for template_name in jenv.list_templates():
     template_path = Path(template_name)
