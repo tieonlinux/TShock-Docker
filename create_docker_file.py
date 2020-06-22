@@ -11,6 +11,10 @@ import json
 from pathlib import Path
 import warnings
 
+
+def filter_quote(s: str, quote='"', escape='\\"') -> str:
+    return f'"{str(s).replace(quote, escape)}"'
+
 _DEFAULT_TSHOCK_REPO='Pryaxis/TShock'
 
 @lru_cache(512)
@@ -35,8 +39,6 @@ def get_release_asset(release: dict):
     else:
         raise ValueError("unable to find valid asset")
 
-def filter_quote(s: str, quote='"', escape='\\"') -> str:
-    return f'"{str(s).replace(quote, escape)}"'
 
 def gen_default_labels():
     yield "maintainer", "github.com/tieonlinux"

@@ -186,11 +186,11 @@ jobs:
             --platform=linux/amd64,linux/386,linux/arm/v7,linux/arm64/v8 \
             --output "type=image,push=true" \
             --file ./Dockerfile . \
-            --tag tieonlinux/tshock:latest \
-            --tag "tieonlinux/tshock:${TSHOCK_TAG}" \
-            --tag "tieonlinux/tshock:${TSHOCK_TAG_FORMATED_SPLIT_X}" \
-            --tag "tieonlinux/tshock:${TSHOCK_TAG_FORMATED_SPLIT_XX}" \
-            --tag "tieonlinux/tshock:${TSHOCK_TAG_FORMATED_SPLIT_XXX}" \
+            --tag tieonlinux/terraria:latest \
+            --tag "tieonlinux/terraria:${TSHOCK_TAG}" \
+            --tag "tieonlinux/terraria:${TSHOCK_TAG_FORMATED_SPLIT_X}" \
+            --tag "tieonlinux/terraria:${TSHOCK_TAG_FORMATED_SPLIT_XX}" \
+            --tag "tieonlinux/terraria:${TSHOCK_TAG_FORMATED_SPLIT_XXX}" \
 
     - name: Push changes to remote gen branch
       uses: ad-m/github-push-action@master
