@@ -233,4 +233,11 @@ jobs:
       run: |
             echo ${{ github.run_id }} > "$SHA_CACHE_FILE"
             touch "$SHA_CACHE_FILE"
-
+    
+    - name: Update microbadger
+      shell: python
+      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      timeout-minutes: 1
+      run: |
+            import requests
+            requests.post(r'''${{ secrets.MICROBADGER_HOOK_URL }}''')
