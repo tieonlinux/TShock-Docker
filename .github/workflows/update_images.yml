@@ -236,8 +236,8 @@ jobs:
     
     - name: Update microbadger
       shell: python
-      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 1
+      continue-on-error: true
       run: |
             import requests
-            requests.post(r'''${{ secrets.MICROBADGER_HOOK_URL }}''')
+            requests.post(r'''${{ secrets.MICROBADGER_HOOK_URL }}''').raise_for_status()
