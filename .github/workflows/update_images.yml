@@ -131,7 +131,7 @@ jobs:
             mkdir -p "${HOME}/.cache/tshock_docker_build"
             cfile="${HOME}/.cache/tshock_docker_build/${{ github.sha }}.run_id"
             echo "::set-env name=SHA_CACHE_FILE::$cfile"
-            if [ ${{ steps.tag_cache.outputs.cache-hit }} = "true" -a -f "${cfile}" ]; then
+            if [ -f "${cfile}" ]; then
               echo "::set-output name=previous_run_id::$(cat $cfile)"
               echo "::set-env name=COMMIT_ALREADY_BUILT::1"
             else
@@ -225,7 +225,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gen
         directory: ${{ env.gen_dir }}
-        force: ${{ !env.COMMIT_FAIL || (env.COMMIT_ALREADY_BUILT && env.NEW_RELEASE) }}
+        force: ${{ !env.COMMIT_FAIL || env.NEW_RELEASE }}
         tags: ${{ env.NEW_RELEASE || env.COMMIT_ALREADY_BUILT }}
 
     - name: Update cache entry
