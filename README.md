@@ -6,12 +6,12 @@
 | Key | Value |
 | :-- | --:|
 | maintainer | github.com/tieonlinux |
-| build-date | 2020-06-22T23:22:38.172859 |
+| build-date | 2020-06-22T23:31:07.557689 |
 | name | tshock |
 | description | Tshock docker container by tieonlinux |
 | url | https://github.com/tieonlinux/TShock-Docker |
 | vcs-url | https://github.com/tieonlinux/TShock-Docker |
-| vcs-ref | 568542281bf4056bcac58617c55055e2ba10d0ae |
+| vcs-ref | 86bf64565f2ba409baad5ad1c2f35cbf4c2a0a77 |
 | tshock.release.url | https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre11 |
 | tshock.release.id | 27248651 |
 | tshock.release.tag | v4.4.0-pre11 |
