@@ -9,7 +9,7 @@ if [ -z "${TSHOCK_URL}" ]; then
     echo "Missing TSHOCK_URL env variable !"
     exit 1
 fi
-mkdir /world /config /logs /plugins /tshock &&
+mkdir -p "/config" "/world" "/logs" "/plugins" "/tshock" &&
 cd /tshock &&
 echo "downloading tshock" &&
 wget "$TSHOCK_URL" -O tshock.zip --tries=5 &&
