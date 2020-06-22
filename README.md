@@ -1,8 +1,9 @@
-# [TShock-Docker](https://github.com/tieonlinux/TShock-Docker)
+# 🚢[TShock-Docker](https://github.com/tieonlinux/TShock-Docker)
 
 a [Docker image](https://hub.docker.com/repository/docker/tieonlinux/terraria) for [TShock a terraria server](https://github.com/Pryaxis/TShock)
 
-[![](https://images.microbadger.com/badges/image/tieonlinux/terraria.svg)](https://microbadger.com/images/tieonlinux/terraria)  [![](https://images.microbadger.com/badges/version/tieonlinux/terraria.svg)](https://microbadger.com/images/tieonlinux/terraria)  [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/tieonlinux/TShock-Docker/blob/main/LICENSE)
+[![](https://images.microbadger.com/badges/image/tieonlinux/terraria.svg)](https://microbadger.com/images/tieonlinux/terraria)  [![](https://images.microbadger.com/badges/version/tieonlinux/terraria.svg)](https://microbadger.com/images/tieonlinux/terraria)  [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/tieonlinux/TShock-Docker/blob/main/LICENSE)  
+![CI Docker Image](https://github.com/tieonlinux/TShock-Docker/workflows/Update%20Docker.io%20Image/badge.svg)
 
 # About TShock
 <p align="center">
@@ -14,7 +15,7 @@ a [Docker image](https://hub.docker.com/repository/docker/tieonlinux/terraria) f
     <img src="https://github.com/Pryaxis/TShock/workflows/Build%20Server/badge.svg" alt="GitHub Actions Build Status">
   </a>
   <a href="#contributors">
-    <img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square" alt="All contributors">
+    <img src="https://img.shields.io/github/contributors/Pryaxis/TShock.svg" alt="All contributors">
   </a>
   <br/><br/>
   <a href="https://github.com/Pryaxis/TShock/blob/general-devel/README_cn.md">查看中文版</a>
@@ -22,7 +23,7 @@ a [Docker image](https://hub.docker.com/repository/docker/tieonlinux/terraria) f
 
 TShock is a toolbox for Terraria servers and communities. That toolbox is jam packed with anti-cheat tools, server-side characters, groups, permissions, item bans, tons of commands, and limitless potential. It's one of a kind.
 
-* Download: [official](https://github.com/TShock/TShock/releases) or [experimental](#experimental-downloads).
+* Download: [official](https://github.com/TShock/TShock/releases) or [experimental](https://github.com/TShock/TShock#experimental-downloads).
 * Download: [plugins and tools](https://github.com/Pryaxis/plugins) that work with TShock, TSAPI, and Terraria.
 * Read [the documentation](https://tshock.readme.io/) to quickly get up to speed.
 * Join [Discord](https://discord.gg/Cav9nYX).
@@ -30,32 +31,34 @@ TShock is a toolbox for Terraria servers and communities. That toolbox is jam pa
 * Talk on [GitHub discussions](https://github.com/Pryaxis/TShock/discussions) to ask for help, chat, and other things. This is the best way to get help if Discord isn't your thing.
 * For news, follow [@Pryaxis](https://twitter.com/Pryaxis) on Twitter.
 
-# Supported Architectures
-built images support multiple architectures such as *x86-64*, *arm64* and *armhf*.
+# 🎡 Supported Architectures 🎡
+Built images support multiple architectures such as *x86-64*, *arm64* and *armhf*.
 
-Pulling [tieonlinux/terraria](https://hub.docker.com/repository/docker/tieonlinux/terraria) retrieve the correct image for your architecture. You can also pull specific arch images via tags.
+Pulling [tieonlinux/terraria:latest](https://hub.docker.com/repository/docker/tieonlinux/terraria) retrieve the image matching your architecture.  
+You can also pull arch images via specific tags.
 
-The architectures supported by this image are:
+The architectures supported are the following:
 | Architecture | Tag |
 | -- | -- |
 | x86-64 | amd64-latest |
 | 386 | 386-latest |
 | arm64 | arm64v8-latest |
 | armhf | arm32v7-latest |
+| ▲ *Any of those* ▲  | ★ **latest** ★ |
 
-# Usage
+# 🎮 Usage
 
-## Docker
+## 🚢 Docker
 ```
 docker create \
   --name=terraria \
   -e PUID=1001 \
   -e PGID=1001 \
-  -v /path/to/tshock/config:/config 
-  -v /path/to/tshock/logs:/logs
-  -v /path/to/tshock/world:/world
-  -v /path/to/tshock/plugins:/plugins
-  --name="terraria"
-  tieonlinux/terraria
-  -world "world_name"
+  -v /path/to/tshock/config:/config \
+  -v /path/to/tshock/logs:/logs \
+  -v /path/to/tshock/world:/world \
+  -v /path/to/tshock/plugins:/plugins \
+  --name="terraria" \
+  tieonlinux/terraria \
+  -world "a world_name.wld"
 ```
