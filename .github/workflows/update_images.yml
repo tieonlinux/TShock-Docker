@@ -182,6 +182,7 @@ jobs:
       if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 30
       run: |
+            set -x
             docker buildx build \
             --platform=linux/amd64,linux/386,linux/arm/v7,linux/arm64/v8 \
             --output "type=image,push=true" \
@@ -190,7 +191,31 @@ jobs:
             --tag "tieonlinux/terraria:${TSHOCK_TAG}" \
             --tag "tieonlinux/terraria:${TSHOCK_TAG_FORMATED_SPLIT_X}" \
             --tag "tieonlinux/terraria:${TSHOCK_TAG_FORMATED_SPLIT_XX}" \
-            --tag "tieonlinux/terraria:${TSHOCK_TAG_FORMATED_SPLIT_XXX}" \
+            --tag "tieonlinux/terraria:${TSHOCK_TAG_FORMATED_SPLIT_XXX}"
+
+            docker buildx build \
+            --platform=linux/amd64 \
+            --output "type=image,push=true" \
+            --file ./Dockerfile . \
+            --tag tieonlinux/terraria:amd64-latest
+
+            docker buildx build \
+            --platform=linux/386 \
+            --output "type=image,push=true" \
+            --file ./Dockerfile . \
+            --tag tieonlinux/terraria:386-latest
+
+            docker buildx build \
+            --platform=linux/arm/v7 \
+            --output "type=image,push=true" \
+            --file ./Dockerfile . \
+            --tag tieonlinux/terraria:arm32v7-latest
+
+            docker buildx build \
+            --platform=linux/arm64/v8 \
+            --output "type=image,push=true" \
+            --file ./Dockerfile . \
+            --tag tieonlinux/terraria:arm64v8-latest
 
     - name: Push changes to remote gen branch
       uses: ad-m/github-push-action@master
