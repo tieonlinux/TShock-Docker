@@ -23,8 +23,14 @@ dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"
 wget --tries=5 -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.12/gosu-$dpkgArch" &&
 chmod +x /usr/local/bin/gosu || exit $?
 
-# cleanup apt
+# cleanup
 rm -rf /var/lib/apt/lists/*
+rm -rf /var/cache/debconf/templates.dat*
+rm -rf /var/lib/dpkg/status-old
+echo '' > /var/log/lastlog
+echo '' > /var/log/dpkg.log
+echo '' > /var/log/apt/term.log
+echo '' >  /var/log/faillog
 
 # terraria user & group
 addgroup --system --gid 1001 terraria &&
