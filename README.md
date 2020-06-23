@@ -6,7 +6,7 @@
 | Key | Value |
 | :-- | --:|
 | maintainer | github.com/tieonlinux |
-| build-date | 2020-06-22T23:38:48.422694 |
+| build-date | 2020-06-23T00:33:50.868842 |
 | name | tshock |
 | description | Tshock docker container by tieonlinux |
 | url | https://github.com/tieonlinux/TShock-Docker |
