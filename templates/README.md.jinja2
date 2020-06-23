@@ -1,6 +1,7 @@
-# TShock-Docker
+{{ raw_original_readme }}  
 
-**This is the gen branch**
+# Build info
+**Build context from the [gen branch](https://github.com/tieonlinux/TShock-Docker/tree/gen)**
 
 {% if labels -%}
 ## labels
@@ -11,6 +12,7 @@
 {% endfor %}
 {% endif %}
 {% if env -%}
+
 ## env
 | Key | Value |
 | :-- | --:|
@@ -18,3 +20,10 @@
 | {{ key }} | {{ value }} |
 {% endfor %}
 {% endif %}
+
+## files
+| Key |
+| :-- |
+{% for file in files -%} 
+| {{ file }} |
+{% endfor %}
