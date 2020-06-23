@@ -226,7 +226,7 @@ jobs:
         branch: gen
         directory: ${{ env.gen_dir }}
         force: ${{ !env.COMMIT_FAIL || env.NEW_RELEASE }}
-        tags: ${{ env.NEW_RELEASE || env.COMMIT_ALREADY_BUILT }}
+        tags: ${{ (env.NEW_RELEASE || env.COMMIT_ALREADY_BUILT) && true }}
 
     - name: Update cache entry
       if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
