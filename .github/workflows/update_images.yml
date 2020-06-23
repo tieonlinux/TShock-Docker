@@ -3,10 +3,10 @@
 name: Update Docker.io Image
 
 # Controls when the action will run. Triggers the workflow on push
-# events & every 2 hours but only for the main branch
+# events & every 2 hours
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   schedule:
     - cron: '22 */2 * * *'
 
@@ -106,6 +106,7 @@ jobs:
             popd
 
     - name: Manage Tag
+      timeout-minutes: 1
       run: |
             set -x
             git ls-remote --exit-code origin "refs/tags/tshock_${TSHOCK_TAG}" &&
@@ -143,7 +144,7 @@ jobs:
       
     - uses: azure/docker-login@v1
       timeout-minutes: 1
-      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      if: success() && github.ref == 'refs/heads/main' && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       with:
         login-server: index.docker.io
         username: ${{ secrets.DOCKERIO_USERNAME }}
@@ -160,7 +161,7 @@ jobs:
             
     -
       name: Docker Login
-      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      if: success() && github.ref == 'refs/heads/main' && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 1
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKERIO_USERNAME }}
@@ -170,7 +171,7 @@ jobs:
       
 
     - name: Build Dockerfile for a local image to test
-      timeout-minutes: 30
+      timeout-minutes: 10
       run: |
             docker build -t tshock_testing .
 
@@ -179,7 +180,7 @@ jobs:
       run: python tests.py
     
     - name: Build dockerfile (with push)
-      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      if: success() && github.ref == 'refs/heads/main' && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 30
       run: |
             set -x
@@ -219,17 +220,17 @@ jobs:
 
     - name: Push changes to remote gen branch
       uses: ad-m/github-push-action@master
-      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      if: success() && github.ref == 'refs/heads/main' && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gen
         directory: ${{ env.gen_dir }}
-        force: ${{ !env.COMMIT_FAIL || env.NEW_RELEASE }}
+        force: ${{ (!env.COMMIT_FAIL || env.NEW_RELEASE) && true }}
         tags: ${{ (env.NEW_RELEASE || env.COMMIT_ALREADY_BUILT) && true }}
 
     - name: Update cache entry
-      if: success() && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
+      if: success() && github.ref == 'refs/heads/main' && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       run: |
             echo ${{ github.run_id }} > "$SHA_CACHE_FILE"
             touch "$SHA_CACHE_FILE"
@@ -237,7 +238,15 @@ jobs:
     - name: Update microbadger
       shell: python
       timeout-minutes: 1
+      if: success() && github.ref == 'refs/heads/main'
       continue-on-error: true
       run: |
             import requests
             requests.post(r'''${{ secrets.MICROBADGER_HOOK_URL }}''').raise_for_status()
+
+    - name: Create gen artifact
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: generated_files
+        path: ${{ env.gen_dir }}
