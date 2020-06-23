@@ -89,12 +89,14 @@ with open('release_info.json', 'w') as f:
 
 files = ['start.py', 'setup_tshock.sh', 'release_info.json', 'README.md']
 
+readme_content = Path('README.md').read_text()
+
 for template_name in jenv.list_templates():
     template_path = Path(template_name)
     if template_path.suffix not in ('.jinja2', 'j2'):
         warnings.warn(f"found a non template file in template folder: {template_path}")
         continue
     template = jenv.get_template(template_name)
-    output = template.render(labels=labels, env=env, files=files)
+    output = template.render(labels=labels, env=env, files=files, raw_original_readme=readme_content)
     with open(template_name[:-len(template_path.suffix)], 'w') as f:
         f.write(output)
