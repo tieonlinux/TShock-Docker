@@ -184,8 +184,8 @@ jobs:
       timeout-minutes: 2
       run: |
             pushd /tmp
-            wget https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb
-            sudo apt install -y ./dive_0.9.2_linux_amd64.deb
+            wget --no-verbose https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb
+            sudo apt install --quiet -y ./dive_0.9.2_linux_amd64.deb
             popd
             CI=true dive --ci-config "${{ github.workspace }}/.dive-ci" tshock_testing
             CI=true dive --ci-config "${{ github.workspace }}/.dive-ci" tshock_testing >> "${{ env.gen_dir }}/dive.txt" 2>&1
