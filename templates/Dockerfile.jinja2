@@ -1,4 +1,4 @@
-FROM {{ base_image | default("mono:slim") }}
+FROM {{ base_image | default("debian:buster-slim") }}
 
 
 {% if labels -%}
