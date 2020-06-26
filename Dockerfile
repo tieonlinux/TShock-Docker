@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 
 
-LABEL maintainer="github.com/tieonlinux" build-date="2020-06-26T12:10:17.941441" name="tshock" description="Tshock docker container by tieonlinux" url="https://github.com/tieonlinux/TShock-Docker" vcs-url="https://github.com/tieonlinux/TShock-Docker" vcs-ref="aa95ee2c76acc5da63dbf767b2a8f28f0b46575c" tshock.release.url="https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre11" tshock.release.id="27248651" tshock.release.tag="v4.4.0-pre11" tshock.release.author="hakusaro" tshock.release.prerelease="1" tshock.asset.name="TShock4.4.0_Pre11_Terraria1.4.0.5.zip" tshock.asset.url="https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre11/TShock4.4.0_Pre11_Terraria1.4.0.5.zip" 
+LABEL maintainer="github.com/tieonlinux" build-date="2020-06-26T14:33:08.608099" name="tshock" description="Tshock docker container by tieonlinux" url="https://github.com/tieonlinux/TShock-Docker" vcs-url="https://github.com/tieonlinux/TShock-Docker" vcs-ref="b120c4c673a870c845caa71638b02445d4566197" tshock.release.url="https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre11" tshock.release.id="27248651" tshock.release.tag="v4.4.0-pre11" tshock.release.author="hakusaro" tshock.release.prerelease="1" tshock.asset.name="TShock4.4.0_Pre11_Terraria1.4.0.5.zip" tshock.asset.url="https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre11/TShock4.4.0_Pre11_Terraria1.4.0.5.zip" 
 
 ENV TSHOCK_URL="https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre11/TShock4.4.0_Pre11_Terraria1.4.0.5.zip" TSHOCK_TAG="v4.4.0-pre11" 
 
