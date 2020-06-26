@@ -68,35 +68,38 @@ def gen_release_labels(release: dict):
     yield "tshock.asset.name", asset['name']
     yield "tshock.asset.url", asset['browser_download_url']
 
+def main():
+    templateLoader = jinja2.FileSystemLoader(searchpath="templates")
+    jenv = jinja2.Environment(loader=templateLoader)
+    jenv.filters['quote'] = filter_quote
 
-templateLoader = jinja2.FileSystemLoader(searchpath="templates")
-jenv = jinja2.Environment(loader=templateLoader)
-jenv.filters['quote'] = filter_quote
+    release = get_latest_release()
+    asset = get_release_asset(release)
 
-release = get_latest_release()
-asset = get_release_asset(release)
+    labels = OrderedDict(gen_default_labels())
+    labels.update(gen_release_labels(release))
 
-labels = OrderedDict(gen_default_labels())
-labels.update(gen_release_labels(release))
-
-env = OrderedDict()
-env['TSHOCK_URL'] = asset['browser_download_url']
-env['TSHOCK_TAG'] = release['tag_name']
+    env = OrderedDict()
+    env['TSHOCK_URL'] = asset['browser_download_url']
+    env['TSHOCK_TAG'] = release['tag_name']
 
 
-with open('release_info.json', 'w') as f:
-    json.dump(release, f, indent=4)
+    with open('release_info.json', 'w') as f:
+        json.dump(release, f, indent=4)
 
-files = ['start.py', 'setup_tshock.sh', 'release_info.json', 'README.md']
+    files = ['start.py', 'setup_tshock.sh', 'release_info.json', 'README.md']
 
-readme_content = Path('README.md').read_text()
+    readme_content = Path('README.md').read_text()
 
-for template_name in jenv.list_templates():
-    template_path = Path(template_name)
-    if template_path.suffix not in ('.jinja2', 'j2'):
-        warnings.warn(f"found a non template file in template folder: {template_path}")
-        continue
-    template = jenv.get_template(template_name)
-    output = template.render(labels=labels, env=env, files=files, raw_original_readme=readme_content)
-    with open(template_name[:-len(template_path.suffix)], 'w') as f:
-        f.write(output)
+    for template_name in jenv.list_templates():
+        template_path = Path(template_name)
+        if template_path.suffix not in ('.jinja2', 'j2'):
+            warnings.warn(f"found a non template file in template folder: {template_path}")
+            continue
+        template = jenv.get_template(template_name)
+        output = template.render(labels=labels, env=env, files=files, raw_original_readme=readme_content)
+        with open(template_name[:-len(template_path.suffix)], 'w') as f:
+            f.write(output)
+
+if __name__ == "__main__":
+    main()
