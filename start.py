@@ -58,7 +58,7 @@ def process_mono_flags():
 
 def start_terraria(flags, argv):
     cmd = '''gosu terraria:terraria mono TerrariaServer.exe --gc=sgen -O=all {} -configpath /config -logpath /logs -worldpath /world'''
-    cmd.format(flags)
+    cmd = cmd.format(flags)
     
     cmd = shlex.split(cmd)
     if len(argv) > 1:
