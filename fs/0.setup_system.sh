@@ -35,6 +35,6 @@ echo '' > /var/log/alternatives.log
 
 # terraria user & group
 addgroup --system --gid 1001 terraria &&
-adduser --system --uid 1001 --ingroup terraria --shell /bin/bash terraria ||
+useradd --no-log-init --system --uid 1001 -g terraria --shell /bin/bash terraria ||
 
 exit $?
