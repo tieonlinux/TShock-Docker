@@ -47,7 +47,7 @@ You can also pull arch images via specific tags.
 
 The architectures supported are the following:
 | Architecture | Tag |
-|:-- | :-- |
+|:-------------|:----|
 | x86-64 | amd64-latest |
 | 386 | 386-latest |
 | arm64 | arm64v8-latest |
@@ -75,7 +75,7 @@ docker create \
 
 ## Parameters
 | Parameter | Description |
-| :-- | :--
+|:----------|:------------|
 | -e PUID=1001 | for UserID - [see below for explanation](#usergroupidentifiers) |
 | -e PGID=1001 | for GroupID - [see below for explanation](#usergroupidentifiers) |
 | -v /path/to/tshock/config:/config | TShock's config location. Allow persistance of databases and json config |
@@ -103,3 +103,11 @@ In this instance `PUID=1001` and `PGID=1001`, to find yours use `id user` as bel
 # Special Thanks
 - [TShock devs](https://github.com/Pryaxis/TShock) 
 - [LinuxServer](https://www.linuxserver.io/) for inspiration on docker images features / readme
+
+# Software used
+- [dumb-init](https://github.com/Yelp/dumb-init)
+- [gosu](https://github.com/tianon/gosu)
+- [debian 9](https://www.debian.org/)
+- [mono](https://www.mono-project.com/download/stable/#download-lin-debian)
+- [python 3](https://www.python.org/downloads/)
+- [docker build x](https://docs.docker.com/buildx/working-with-buildx/)
