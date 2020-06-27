@@ -87,7 +87,7 @@ def main():
     with open('release_info.json', 'w') as f:
         json.dump(release, f, indent=4)
 
-    files = ['start.py', 'setup_tshock.sh', 'release_info.json', 'README.md']
+    files = ['start.py', 'setup_system.sh', 'release_info.json', 'README.md']
 
     readme_content = Path('README.md').read_text()
 

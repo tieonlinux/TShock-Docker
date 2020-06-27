@@ -16,7 +16,7 @@ ENV {% for key, value in env.items() -%}
 COPY {% for file in files %}{{ file | quote }} {% endfor %}  /
 {% endif %}
 
-RUN /bin/sh -x /setup_tshock.sh
+RUN /bin/sh -x /setup_system.sh
 
 VOLUME ["/world", "/config", "/logs", "/plugins"]
 
