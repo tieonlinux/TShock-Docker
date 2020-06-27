@@ -45,7 +45,9 @@ Built images support multiple architectures such as *x86-64*, *arm64* and *armhf
 Pulling [tieonlinux/terraria:latest](https://hub.docker.com/repository/docker/tieonlinux/terraria) retrieve the image matching your architecture.  
 You can also pull arch images via specific tags.
 
-The architectures supported are the following:
+The architectures supported are the following:  
+
+
 | Architecture | Tag |
 |:-------------|:----|
 | x86-64 | amd64-latest |
