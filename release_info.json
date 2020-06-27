@@ -1,13 +1,13 @@
 {
-    "url": "https://api.github.com/repos/Pryaxis/TShock/releases/27248651",
-    "assets_url": "https://api.github.com/repos/Pryaxis/TShock/releases/27248651/assets",
-    "upload_url": "https://uploads.github.com/repos/Pryaxis/TShock/releases/27248651/assets{?name,label}",
-    "html_url": "https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre11",
-    "id": 27248651,
-    "node_id": "MDc6UmVsZWFzZTI3MjQ4NjUx",
-    "tag_name": "v4.4.0-pre11",
+    "url": "https://api.github.com/repos/Pryaxis/TShock/releases/27983039",
+    "assets_url": "https://api.github.com/repos/Pryaxis/TShock/releases/27983039/assets",
+    "upload_url": "https://uploads.github.com/repos/Pryaxis/TShock/releases/27983039/assets{?name,label}",
+    "html_url": "https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre12",
+    "id": 27983039,
+    "node_id": "MDc6UmVsZWFzZTI3OTgzMDM5",
+    "tag_name": "v4.4.0-pre12",
     "target_commitish": "general-devel",
-    "name": "TShock 4.4.0 Pre-release 11 for Terraria 1.4.0.5",
+    "name": "TShock 4.4.0 Pre-release 12 for Terraria 1.4.0.5",
     "draft": false,
     "author": {
         "login": "hakusaro",
@@ -30,14 +30,14 @@
         "site_admin": false
     },
     "prerelease": true,
-    "created_at": "2020-06-05T04:29:50Z",
-    "published_at": "2020-06-05T04:33:51Z",
+    "created_at": "2020-06-27T08:42:40Z",
+    "published_at": "2020-06-27T08:46:45Z",
     "assets": [
         {
-            "url": "https://api.github.com/repos/Pryaxis/TShock/releases/assets/21431371",
-            "id": 21431371,
-            "node_id": "MDEyOlJlbGVhc2VBc3NldDIxNDMxMzcx",
-            "name": "TShock4.4.0_Pre11_Terraria1.4.0.5.zip",
+            "url": "https://api.github.com/repos/Pryaxis/TShock/releases/assets/22140535",
+            "id": 22140535,
+            "node_id": "MDEyOlJlbGVhc2VBc3NldDIyMTQwNTM1",
+            "name": "TShock4.4.0_Pre12_Terraria1.4.0.5.zip",
             "label": null,
             "uploader": {
                 "login": "hakusaro",
@@ -61,14 +61,14 @@
             },
             "content_type": "application/zip",
             "state": "uploaded",
-            "size": 6564087,
-            "download_count": 10081,
-            "created_at": "2020-06-05T04:33:46Z",
-            "updated_at": "2020-06-05T04:33:48Z",
-            "browser_download_url": "https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre11/TShock4.4.0_Pre11_Terraria1.4.0.5.zip"
+            "size": 6570168,
+            "download_count": 31,
+            "created_at": "2020-06-27T08:45:17Z",
+            "updated_at": "2020-06-27T08:45:26Z",
+            "browser_download_url": "https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre12/TShock4.4.0_Pre12_Terraria1.4.0.5.zip"
         }
     ],
-    "tarball_url": "https://api.github.com/repos/Pryaxis/TShock/tarball/v4.4.0-pre11",
-    "zipball_url": "https://api.github.com/repos/Pryaxis/TShock/zipball/v4.4.0-pre11",
-    "body": "* New permission `tshock.tp.pylon` to enable teleporting via Teleportation Pylons (@QuiCM)\r\n* New permission `tshock.journey.research` to enable sharing research via item sacrifice (@QuiCM)\r\n* Add Emoji event to GetDataHandler. This packet is received when a player tries to display an emote. (who?)\r\n\t* Adding EmojiHandler to handle an exploit. Adding `tshock.sendemoji` permission and checks. Added this permission to guest group by default. (who?)\r\n* Handled SyncCavernMonsterType packet to prevent an exploit where players could modify the server's cavern monster types and make the server spawn any NPCs - including bosses - onto other players. (who?)\r\n* Added LandGolfBallInCup event which is accessible for developers to work with, as well as LandGolfBallInCup handler to handle exploits where players could send direct packets to trigger and imitate golf ball cup landing anywhere in the game world. Added two public lists in Handlers.LandGolfBallInCupHandler: GolfBallProjectileIDs and GolfClubItemIDs. (@Patrikkk)\r\n* Added SyncTilePicking event. This is called when a player damages a tile. Implementing SyncTilePickingHandler and patching tile damaging related exploits. (Preventing player sending invalid world position data which disconnects other players.)\r\n* Fixed the issue where mobs could not be fished out during bloodmoon because of Bouncer checks. (@Patrikkk)\r\n* Update for OTAPI 2.0.0.37 and Terraria 1.4.0.5. (@hakusaro, @Patrikkk)\r\n* Adding missing PlayerInfo data in GetDataHandler. (@Patrikkk)\r\n\r\nUsual disclaimers apply."
+    "tarball_url": "https://api.github.com/repos/Pryaxis/TShock/tarball/v4.4.0-pre12",
+    "zipball_url": "https://api.github.com/repos/Pryaxis/TShock/zipball/v4.4.0-pre12",
+    "body": "To upgrade, simply overwrite all applicable files in your existing server folder. TShock releases are designed so that you can upgrade by copying all files over and clicking \"yes\" to overwrite any duplicates. All existing world and character and database data will be saved.\r\n* Fixed various bugs related to Snake Charmer's Flute. (@rustly)  \r\n  * The entirety of the snake now places.  \r\n  * The old snake now removes when placing a new snake.\r\n  * Players are no longer disabled for breaking TilePlace/TileKill thresholds when modifying snakes.  \r\n* Prevented players from seeing the npc spawnrate change permission error on join. (@rustly)\r\n* Installed new sprinklers!\r\n* Organized parameters by category and relevance in the `config.json` file. (@kubedzero)\r\n* Fixed multiple holes in Bouncer OnTileData. (@Patrikkk, @hakusaro)\r\n  * Issue where players could replace tiles with banned tiles without permission. \r\n  * Including replace action in TilePlace threshold incrementation, so players cannot bypass the threshold while replacing tiles/walls.\r\n  * Including check for maxTileSets when player is replacing tiles, so players cannot send invalid tile data through the replace tile action.\r\n  * Including a check for ReplaceWall when the tile is a Breakable/CutTile.\r\n* Adding checks in Bouncer OnNewProjectile (@Patrikkk):\r\n  * For valid golf club and golf ball creation.\r\n  * Renamed stabProjectile to directionalProjectile for a more accurate naming.\r\n  * Adding staff projectiles to the directionalProjectiles Dictionary to include staffs in the valid projectile creation check.\r\n  * Adding GolfBallItemIDs list in Handlers.LandGolfBallInCupHandler.cs\r\n* Fixed an issue in the SendTileSquare handler that was rejecting valid tile objects. (@QuiCM)\r\n* Fixed the issue where players were unable to place regular ropes because of the valid placement being caught in Bouncer OnTileEdit. (@Patrikkk)\r\n* Added pet license usage permissions to `trustedadmin` and `owner` groups. Do note that this has a high network usage and can be easily be abused so it is not recommended to give out this permission to lower level groups. (@moisterrific) \r\n* Removed checks that prevented people placing personal storage tiles in SSC as the personal storage is synced with the server. (@Patrikkk)\r\n* Cleaned up a check in Bouner OnTileEdit where it checks for using the respective item when placing a tile to make it clearer. This change also fixed the issue in a previous commit where valid replace action was caught. Moved the check for max tile/wall types to the beginning of the method. (@Patrikkk)\r\n* Improved clarity for insufficient permission related error messages. (@moisterrific)\r\n* Removed redundant Boulder placement check that prevented placing chests on them, as it is no longer possible to place a chest on a boulder, so nothing crashes the server. \"1.2.3: Boulders with Chests on them no longer crash the game if the boulder is hit.\" (@kevzhao2, @Patrikkk)\r\n* `/itemban` - `/projban` - `/tileban` - Added a `default:` case to the commands so an invalid subcommand promts the player to enter the help subcommand to get more information on valid subcommands. (@Patrikkk)\r\n* `/world` - Renamed to /worldinfo to be more accurate to it's function. Command now displays the world's `Seed`. Reformatted the world information so each line isn't repeatedly starting with \"World\". (@Patrikkk)\r\n* `/who` - Changed the display format of the online players when the `-i` flag is used. From `PlayerName (ID: 0, ID: 0)` to `PlayerName (Index: 0, Account ID: 0)` for clarification. (@Patrikkk)\r\n* Added DisplayDollItemSync event. An event that is called when a player modifies the slot of a DisplayDoll (Mannequin). This event provides information about the current item in the displaydoll, as well as the item that the player is about to set. (@Patrikkk)\r\n* Added DisplayDollItemSyncHandler, which checks for building permissions of the player at the position of the DisplayDoll. (If they do not have permissions, it means they are hacking as they could not even open the doll in the first place.) (@Patrikkk)\r\n* Added RequestTileEntity packet handling. (@Patrikkk)\r\n  * Implemented the OnRequestTileEntityInteraction even hook in GetDataHandler. (@Patrikkk)\r\n  * Created RequestTileEntityInteractionHandler which checks for building permissions when the player is attempting to open a display doll (Mannequin) or a Hat Rack. This now prevents players from opening a Mannequin or a Hat Rack if they have no building permissions at the position of these tile entities. As of 1.4.0.5, these are the only two items that use this packet. (@Patrikkk)"
 }
