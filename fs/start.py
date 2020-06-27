@@ -19,9 +19,22 @@ from functools import partial
 PUID=int(os.environ.get("PUID", 1001))
 PGID=int(os.environ.get("PGID", 1001))
 
+LAST_WORLD_LOCATION_FILE = '/var/run/tshock/last_world.txt'
 TERRARIA_DIRS = ("/config", "/world", "/logs", "/plugins", "/tshock")
 
 shell = partial(subprocess.check_call, shell=True)
+
+def _env_text_to_bool(text, default=None, match_positive=True):
+    if text is None:
+        return default
+    text = text.lower().strip()
+    if match_positive:
+        return text in ('true', 'y', 'yes', '1', 't', '+')
+    return text not in ('false', 'n', 'no', '0', 'f', '-', '')
+
+def env_bool(name, default=None, match_positive=True):
+    return _env_text_to_bool(os.environ.get(name), default=default, match_positive=match_positive)
+
 
 def is_in_tty():
     return sys.__stdin__.isatty()
@@ -67,7 +80,7 @@ def start_terraria(flags, argv):
 
 def _parse_tshock_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-autocreate", nargs='?', default=os.environ.get('AUTO_CREATE_WORLD'))
+    parser.add_argument("-autocreate", action='store_true', default=env_bool('AUTO_CREATE_WORLD'))
     parser.add_argument("-world", nargs='?', default=os.environ.get('WORLD_PATH'))
     args, _ = parser.parse_known_args()
     return args
@@ -91,7 +104,29 @@ def fix_world_path(world: str):
 
 
 def list_worlds():
-    return sorted(Path('/world').glob('**/*.wld'), key=lambda p: p.stat().st_mtime)
+    res = sorted(Path('/world').glob('*.wld'), key=lambda p: p.stat().st_mtime)
+    if len(res) <= 0 and env_bool("DEEP_SEARCH_WORLD", True):
+        res = sorted(Path('/world').glob('**/*.wld'), key=lambda p: p.stat().st_mtime)
+        if len(res) > 0:
+            warnings.warn("No world file found in /world folder. But a deep scan found {} worlds in sub folders".format(len(res)))
+    return res
+
+
+def get_last_world_location():
+    p = Path(LAST_WORLD_LOCATION_FILE)
+    if p.exists():
+        s = p.read_text().strip()
+        if Path(s).exists():
+            return Path(s)
+    return None
+
+def save_last_world_location(world):
+    p = Path(LAST_WORLD_LOCATION_FILE)
+    if not p.parent.exists():
+        p.parent.mkdir(parents=True, exist_ok=True)
+        change_owner(p.parent, 'terraria:terraria')
+    p.write_text(str(world))
+    
 
 def get_world_and_edit_argv():
     args = _parse_tshock_arguments()
@@ -100,29 +135,45 @@ def get_world_and_edit_argv():
 
 
     if args.world:
+        if not env_bool("FIX_WORLD", True):
+            return sys.argv[:]
         world = fix_world_path(args.world)
+        save_last_world_location(world)
         return [arg if arg != args.world else str(world) for arg in sys.argv]
     
-    worlds = list_worlds()
-    if len(worlds) >= 1:
-        world = worlds[-1]
-        if len(worlds) > 1:
-            warnings.warn("There's {} worlds in the world folder. Choosing \"{}\" as world file".format(len(worlds), world))
-        else:
-            print("using world \"{}\"".format(world))
+    if env_bool("AUTO_LOAD_WORLD", True):
+        world = get_last_world_location()
+        if world is not None:
+            return sys.argv + ['-world', str(world)]
         
-        return sys.argv + ['-world', str(world)]
-    if len(worlds) == 0 and not is_in_tty():
-        raise RuntimeError("Provide a world with \"-world\" argument !")
+
+        worlds = list_worlds()
+        if len(worlds) >= 1:
+            world = worlds[-1]
+            if len(worlds) > 1:
+                warnings.warn("There's {} worlds in the world folder. Choosing \"{}\" as world file".format(len(worlds), world))
+            else:
+                print("using world \"{}\"".format(world))
+            save_last_world_location(world)
+            return sys.argv + ['-world', str(world)]
+        if len(worlds) == 0 and not is_in_tty():
+            raise RuntimeError('''No world found. Possible solutions:
+Add a world in /world volume dir
+Start the container with "docker run -it ..." and generate a new world
+Provide a valid world with "-world" argument''')
     return sys.argv[:]
     
 
-if __name__ == "__main__":
+def main():
     update_user_and_group_ids()
     copy_plugins()
     fix_permissions()
     flags = process_mono_flags()
     argv = get_world_and_edit_argv()
     start_terraria(flags, argv)
+
+
+if __name__ == "__main__":
+    main()
     
     

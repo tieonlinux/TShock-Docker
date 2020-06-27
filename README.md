@@ -47,7 +47,7 @@ You can also pull arch images via specific tags.
 
 The architectures supported are the following:
 | Architecture | Tag |
-|:-- | :-- |
+|:-------------|:----|
 | x86-64 | amd64-latest |
 | 386 | 386-latest |
 | arm64 | arm64v8-latest |
@@ -75,7 +75,7 @@ docker create \
 
 ## Parameters
 | Parameter | Description |
-| :-- | :--
+|:----------|:------------|
 | -e PUID=1001 | for UserID - [see below for explanation](#usergroupidentifiers) |
 | -e PGID=1001 | for GroupID - [see below for explanation](#usergroupidentifiers) |
 | -v /path/to/tshock/config:/config | TShock's config location. Allow persistance of databases and json config |
@@ -102,42 +102,12 @@ In this instance `PUID=1001` and `PGID=1001`, to find yours use `id user` as bel
 
 # Special Thanks
 - [TShock devs](https://github.com/Pryaxis/TShock) 
-- [LinuxServer](https://www.linuxserver.io/) for inspiration on docker images features / readme  
+- [LinuxServer](https://www.linuxserver.io/) for inspiration on docker images features / readme
 
-# Build info
-**Build context from the [gen branch](https://github.com/tieonlinux/TShock-Docker/tree/gen)**
-
-## labels
-| Key | Value |
-| :-- | --:|
-| maintainer | github.com/tieonlinux |
-| build-date | 2020-06-27T10:24:04.507998 |
-| name | tshock |
-| description | Tshock docker container by tieonlinux |
-| url | https://github.com/tieonlinux/TShock-Docker |
-| vcs-url | https://github.com/tieonlinux/TShock-Docker |
-| vcs-ref | b120c4c673a870c845caa71638b02445d4566197 |
-| tshock.release.url | https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre12 |
-| tshock.release.id | 27983039 |
-| tshock.release.tag | v4.4.0-pre12 |
-| tshock.release.author | hakusaro |
-| tshock.release.prerelease | 1 |
-| tshock.asset.name | TShock4.4.0_Pre12_Terraria1.4.0.5.zip |
-| tshock.asset.url | https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre12/TShock4.4.0_Pre12_Terraria1.4.0.5.zip |
-
-
-## env
-| Key | Value |
-| :-- | --:|
-| TSHOCK_URL | https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre12/TShock4.4.0_Pre12_Terraria1.4.0.5.zip |
-| TSHOCK_TAG | v4.4.0-pre12 |
-
-
-
-## files
-| Key |
-| :-- |
-| start.py |
-| setup_tshock.sh |
-| release_info.json |
-| README.md |
+# Software used
+- [dumb-init](https://github.com/Yelp/dumb-init)
+- [gosu](https://github.com/tianon/gosu)
+- [debian 9](https://www.debian.org/)
+- [mono](https://www.mono-project.com/download/stable/#download-lin-debian)
+- [python 3](https://www.python.org/downloads/)
+- [docker build x](https://docs.docker.com/buildx/working-with-buildx/)
