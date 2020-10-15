@@ -1,6 +1,6 @@
 # 🚢[TShock-Docker](https://github.com/tieonlinux/TShock-Docker)
 
-a [Docker image](https://hub.docker.com/repository/docker/tieonlinux/terraria) for [TShock a terraria server](https://github.com/Pryaxis/TShock)
+a [Docker image](https://hub.docker.com/r/tieonlinux/terraria) for [TShock a terraria server](https://github.com/Pryaxis/TShock)
 
 
 [![](https://images.microbadger.com/badges/image/tieonlinux/terraria.svg)](https://microbadger.com/images/tieonlinux/terraria)  [![](https://images.microbadger.com/badges/version/tieonlinux/terraria.svg)](https://microbadger.com/images/tieonlinux/terraria)  [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/tieonlinux/TShock-Docker/blob/main/LICENSE)  
@@ -42,7 +42,7 @@ TShock is a toolbox for Terraria servers and communities. That toolbox is jam pa
 # 🎡 Supported Architectures 🎡
 Built images support multiple architectures such as *x86-64*, *arm64* and *armhf*.
 
-Pulling [tieonlinux/terraria:latest](https://hub.docker.com/repository/docker/tieonlinux/terraria) retrieve the image matching your architecture.  
+Pulling [tieonlinux/terraria:latest](https://hub.docker.com/r/tieonlinux/terraria) retrieve the image matching your architecture.  
 You can also pull arch images via specific tags.
 
 The architectures supported are the following:  
