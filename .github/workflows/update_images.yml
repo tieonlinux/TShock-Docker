@@ -173,7 +173,7 @@ jobs:
     - name: Build Dockerfile for a local image to test
       timeout-minutes: 10
       run: |
-            docker build -t tshock_testing .
+            docker build --tag tshock_testing --tag "tshock_testing:${TSHOCK_TAG}" .
 
     - name: Test container
       timeout-minutes: 10
