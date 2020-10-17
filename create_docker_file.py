@@ -10,7 +10,7 @@ from functools import lru_cache
 import json
 from pathlib import Path
 import warnings
-
+import glob
 
 def filter_quote(s: str, quote='"', escape='\\"') -> str:
     return f'"{str(s).replace(quote, escape)}"'
@@ -68,6 +68,10 @@ def gen_release_labels(release: dict):
     yield "tshock.asset.name", asset['name']
     yield "tshock.asset.url", asset['browser_download_url']
 
+def glob_files(files):
+    for file in files:
+        yield from glob.iglob(file)
+
 def main():
     templateLoader = jinja2.FileSystemLoader(searchpath="templates")
     jenv = jinja2.Environment(loader=templateLoader)
@@ -87,7 +91,8 @@ def main():
     with open('release_info.json', 'w') as f:
         json.dump(release, f, indent=4)
 
-    files = ['fs/*', 'release_info.json', 'README.md']
+    raw_files = ['fs/*', 'release_info.json', 'README.md']
+    files = list(glob_files(raw_files))
 
     readme_content = Path('README.md').read_text()
 
@@ -97,7 +102,7 @@ def main():
             warnings.warn(f"found a non template file in template folder: {template_path}")
             continue
         template = jenv.get_template(template_name)
-        output = template.render(labels=labels, env=env, files=files, raw_original_readme=readme_content)
+        output = template.render(labels=labels, env=env, files=files, raw_files=raw_files, raw_original_readme=readme_content)
         with open(template_name[:-len(template_path.suffix)], 'w') as f:
             f.write(output)
 

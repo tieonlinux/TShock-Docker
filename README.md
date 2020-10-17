@@ -45,7 +45,9 @@ Built images support multiple architectures such as *x86-64*, *arm64* and *armhf
 Pulling [tieonlinux/terraria:latest](https://hub.docker.com/repository/docker/tieonlinux/terraria) retrieve the image matching your architecture.  
 You can also pull arch images via specific tags.
 
-The architectures supported are the following:
+The architectures supported are the following:  
+
+
 | Architecture | Tag |
 |:-------------|:----|
 | x86-64 | amd64-latest |
@@ -110,41 +112,4 @@ In this instance `PUID=1001` and `PGID=1001`, to find yours use `id user` as bel
 - [debian 9](https://www.debian.org/)
 - [mono](https://www.mono-project.com/download/stable/#download-lin-debian)
 - [python 3](https://www.python.org/downloads/)
-- [docker build x](https://docs.docker.com/buildx/working-with-buildx/)  
-
-# Build info
-**Build context from the [gen branch](https://github.com/tieonlinux/TShock-Docker/tree/gen)**
-
-## labels
-| Key | Value |
-| :-- | --:|
-| maintainer | github.com/tieonlinux |
-| build-date | 2020-06-27T11:54:38.659288 |
-| name | tshock |
-| description | Tshock docker container by tieonlinux |
-| url | https://github.com/tieonlinux/TShock-Docker |
-| vcs-url | https://github.com/tieonlinux/TShock-Docker |
-| vcs-ref | 7287efa414551004278266386c03578c50783d88 |
-| tshock.release.url | https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre12 |
-| tshock.release.id | 27983039 |
-| tshock.release.tag | v4.4.0-pre12 |
-| tshock.release.author | hakusaro |
-| tshock.release.prerelease | 1 |
-| tshock.asset.name | TShock4.4.0_Pre12_Terraria1.4.0.5.zip |
-| tshock.asset.url | https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre12/TShock4.4.0_Pre12_Terraria1.4.0.5.zip |
-
-
-## env
-| Key | Value |
-| :-- | --:|
-| TSHOCK_URL | https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre12/TShock4.4.0_Pre12_Terraria1.4.0.5.zip |
-| TSHOCK_TAG | v4.4.0-pre12 |
-
-
-
-## files
-| Key |
-| :-- |
-| fs/* |
-| release_info.json |
-| README.md |
+- [docker build x](https://docs.docker.com/buildx/working-with-buildx/)

@@ -12,9 +12,7 @@ ENV {% for key, value in env.items() -%}
 {{ key }}={{value | quote }} {% endfor %}
 {% endif %}
 
-{% if files -%}
-COPY {% for file in files %}{{ file | quote }} {% endfor %}  /
-{% endif %}
+COPY {% for file in raw_files %}{{ file | quote }} {% endfor %}  /
 
 RUN /bin/sh -x /0.setup_system.sh
 
