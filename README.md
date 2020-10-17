@@ -112,4 +112,43 @@ In this instance `PUID=1001` and `PGID=1001`, to find yours use `id user` as bel
 - [debian 9](https://www.debian.org/)
 - [mono](https://www.mono-project.com/download/stable/#download-lin-debian)
 - [python 3](https://www.python.org/downloads/)
-- [docker build x](https://docs.docker.com/buildx/working-with-buildx/)
+- [docker build x](https://docs.docker.com/buildx/working-with-buildx/)  
+
+# Build info
+**Build context from the [gen branch](https://github.com/tieonlinux/TShock-Docker/tree/gen)**
+
+## labels
+| Key | Value |
+| :-- | --:|
+| maintainer | github.com/tieonlinux |
+| build-date | 2020-10-17T02:33:10.466274 |
+| name | tshock |
+| description | Tshock docker container by tieonlinux |
+| url | https://github.com/tieonlinux/TShock-Docker |
+| vcs-url | https://github.com/tieonlinux/TShock-Docker |
+| vcs-ref | a0d41d20e024d3828b5f8f509c492a9eb92ebf81 |
+| tshock.release.url | https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre13 |
+| tshock.release.id | 32606704 |
+| tshock.release.tag | v4.4.0-pre13 |
+| tshock.release.author | QuiCM |
+| tshock.release.prerelease | 1 |
+| tshock.asset.name | TShock4.4.0_Pre13_Terraria1.4.1.1.zip |
+| tshock.asset.url | https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre13/TShock4.4.0_Pre13_Terraria1.4.1.1.zip |
+
+
+## env
+| Key | Value |
+| :-- | --:|
+| TSHOCK_URL | https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre13/TShock4.4.0_Pre13_Terraria1.4.1.1.zip |
+| TSHOCK_TAG | v4.4.0-pre13 |
+
+
+
+## files
+| Key |
+| :-- |
+| fs/start.py |
+| fs/0.setup_system.sh |
+| fs/1.setup_tshock.sh |
+| release_info.json |
+| README.md |
