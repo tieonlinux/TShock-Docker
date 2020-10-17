@@ -173,7 +173,20 @@ jobs:
     - name: Build Dockerfile for a local image to test
       timeout-minutes: 10
       run: |
-            docker build -t tshock_testing .
+            docker build \
+            --tag tshock_testing \
+            --tag "tshock_testing:${TSHOCK_TAG}" \
+            --tag docker.pkg.github.com/tieonlinux/tshock-docker/tshock_testing:latest \
+            --tag docker.pkg.github.com/tieonlinux/tshock-docker/tshock_testing:${TSHOCK_TAG} \
+            .
+
+    - name: Push local image to test
+      timeout-minutes: 10
+      run: |
+            set -x
+            echo "${{ github.token }}" | docker login https://docker.pkg.github.com -u ${GITHUB_ACTOR} --password-stdin
+            docker push docker.pkg.github.com/tieonlinux/tshock-docker/tshock_testing:latest
+            docker push docker.pkg.github.com/tieonlinux/tshock-docker/tshock_testing:${TSHOCK_TAG}
 
     - name: Test container
       timeout-minutes: 10
@@ -189,7 +202,7 @@ jobs:
             popd
             CI=true dive --ci-config "${{ github.workspace }}/.dive-ci" tshock_testing
             CI=true dive --ci-config "${{ github.workspace }}/.dive-ci" tshock_testing >> "${{ env.gen_dir }}/dive.txt" 2>&1
-    
+
     - name: Build dockerfile (with push)
       if: success() && github.ref == 'refs/heads/main' && (env.NEW_RELEASE || !env.COMMIT_ALREADY_BUILT)
       timeout-minutes: 30
