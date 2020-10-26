@@ -121,7 +121,7 @@ In this instance `PUID=1001` and `PGID=1001`, to find yours use `id user` as bel
 | Key | Value |
 | :-- | --:|
 | maintainer | github.com/tieonlinux |
-| build-date | 2020-10-17T08:07:30.548457 |
+| build-date | 2020-10-26T16:46:16.939371 |
 | name | tshock |
 | description | Tshock docker container by tieonlinux |
 | url | https://github.com/tieonlinux/TShock-Docker |
