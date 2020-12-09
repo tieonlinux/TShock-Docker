@@ -13,8 +13,7 @@ wget "$TSHOCK_URL" -O tshock.zip --tries=5 &&
 unzip tshock.zip &&
 rm tshock.zip || exit $?
 
-mv deploy/* . &&
-rm -d deploy || :
+mv TShock*/* . || :
 
 chown -R terraria:terraria "/tshock" &&
 chmod +x /tshock/TerrariaServer.exe ||
