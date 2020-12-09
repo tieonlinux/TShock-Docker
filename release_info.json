@@ -1,14 +1,9 @@
 {
-    "url": "https://api.github.com/repos/Pryaxis/TShock/releases/32606704",
-    "assets_url": "https://api.github.com/repos/Pryaxis/TShock/releases/32606704/assets",
-    "upload_url": "https://uploads.github.com/repos/Pryaxis/TShock/releases/32606704/assets{?name,label}",
-    "html_url": "https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre13",
-    "id": 32606704,
-    "node_id": "MDc6UmVsZWFzZTMyNjA2NzA0",
-    "tag_name": "v4.4.0-pre13",
-    "target_commitish": "c3b1bb3d0e8b0c51a74c1eefad1474b156ffb397",
-    "name": "TShock 4.4.0 Pre-release 13 (woah that's a big number) for Terraria 1.4.1.1",
-    "draft": false,
+    "url": "https://api.github.com/repos/Pryaxis/TShock/releases/33960138",
+    "assets_url": "https://api.github.com/repos/Pryaxis/TShock/releases/33960138/assets",
+    "upload_url": "https://uploads.github.com/repos/Pryaxis/TShock/releases/33960138/assets{?name,label}",
+    "html_url": "https://github.com/Pryaxis/TShock/releases/tag/v4.4.0-pre15",
+    "id": 33960138,
     "author": {
         "login": "QuiCM",
         "id": 2648373,
@@ -29,15 +24,20 @@
         "type": "User",
         "site_admin": false
     },
+    "node_id": "MDc6UmVsZWFzZTMzOTYwMTM4",
+    "tag_name": "v4.4.0-pre15",
+    "target_commitish": "general-devel",
+    "name": "TShock 4.4.0 Pre-release 15 for Terraria 1.4.1.2",
+    "draft": false,
     "prerelease": true,
-    "created_at": "2020-10-15T08:32:43Z",
-    "published_at": "2020-10-15T09:14:27Z",
+    "created_at": "2020-11-15T00:36:12Z",
+    "published_at": "2020-11-15T00:44:54Z",
     "assets": [
         {
-            "url": "https://api.github.com/repos/Pryaxis/TShock/releases/assets/27019176",
-            "id": 27019176,
-            "node_id": "MDEyOlJlbGVhc2VBc3NldDI3MDE5MTc2",
-            "name": "TShock4.4.0_Pre13_Terraria1.4.1.1.zip",
+            "url": "https://api.github.com/repos/Pryaxis/TShock/releases/assets/28324678",
+            "id": 28324678,
+            "node_id": "MDEyOlJlbGVhc2VBc3NldDI4MzI0Njc4",
+            "name": "TShock4.4.0_Pre15_Terraria1.4.1.2.zip",
             "label": null,
             "uploader": {
                 "login": "QuiCM",
@@ -61,14 +61,14 @@
             },
             "content_type": "application/x-zip-compressed",
             "state": "uploaded",
-            "size": 7191591,
-            "download_count": 2979,
-            "created_at": "2020-10-15T09:14:10Z",
-            "updated_at": "2020-10-15T09:14:15Z",
-            "browser_download_url": "https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre13/TShock4.4.0_Pre13_Terraria1.4.1.1.zip"
+            "size": 7359289,
+            "download_count": 4282,
+            "created_at": "2020-11-15T00:43:26Z",
+            "updated_at": "2020-11-15T00:43:32Z",
+            "browser_download_url": "https://github.com/Pryaxis/TShock/releases/download/v4.4.0-pre15/TShock4.4.0_Pre15_Terraria1.4.1.2.zip"
         }
     ],
-    "tarball_url": "https://api.github.com/repos/Pryaxis/TShock/tarball/v4.4.0-pre13",
-    "zipball_url": "https://api.github.com/repos/Pryaxis/TShock/zipball/v4.4.0-pre13",
-    "body": "## Upgrading\r\n\r\nTo upgrade, simply overwrite all applicable files in your existing server folder. TShock releases are designed so that you can upgrade by copying all files over and clicking \"yes\" to overwrite any duplicates. All existing world and character and database data will be saved.\r\n\r\n## Changes\r\n\r\n   * Added Gravedigger's Shovel support. (@Zennos)\r\n   *  You can now start up multiple TShock servers at once without getting a startup error. (@ZakFahey)\r\n   *  Updated bouncer to include new Magma Stone, Frost Armor, and Spinal Tap inflicted npc debuffs to bouncer. (@Quinci135)\r\n"
+    "tarball_url": "https://api.github.com/repos/Pryaxis/TShock/tarball/v4.4.0-pre15",
+    "zipball_url": "https://api.github.com/repos/Pryaxis/TShock/zipball/v4.4.0-pre15",
+    "body": "**IF YOU ARE USING PRE-14 PLEASE UPDATE TO THIS VERSION ASAP**\r\n\r\nSome debugging was left enabled in pre-14 that will cause unintended tile edits in your worlds.\r\nPlease update to this release ASAP"
 }
